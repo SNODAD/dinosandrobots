@@ -1,0 +1,88 @@
+# Dependencies
+node_modules/
+
+# macOS
+.DS_Store
+
+# AI / editor tool dirs
+.agents/
+.claude/
+.impeccable-live/
+.kiro/
+
+# Build output
+dist/
+
+# Internal docs
+DESIGN.json
+DESIGN.md
+PRODUCT.md
+package.json
+package-lock.json
+skills-lock.json
+
+# Backups
+index.backup*.html
+index.pre-animate.html
+index.backup.html
+
+# Lab / experimental files
+about-layouts.html
+article-lab.html
+article-layout-compare.html
+article-preview.html
+article-sandbox.html
+back-button-options.html
+before-after-compare.html
+blockquote-compare.html
+callout-compare.html
+color-lab.html
+color-variations.html
+color-variations-2.html
+color-variations-3.html
+compare-lab.html
+contact-link-preview.html
+critique-report.html
+crt-scanline-variations.html
+crt-variations.html
+delight-compare.html
+dinos-robots-final.html
+font-compare.html
+frame-sandbox.html
+full-width-compare.html
+gallery-grid-preview.html
+gallery-preview.html
+grid-sandbox.html
+hero-tagline-variants.html
+hero-variants.html
+intro-divider-preview.html
+item-states.html
+jasonunck-bbs.html
+listing-compare.html
+live-status-variations.html
+media-compare.html
+notice-placement.html
+onboard-variations.html
+option-a-full-lift.html
+option-b-minimal-shell.html
+ordinal-variants.html
+post-lab.html
+progress-variations.html
+prose-variants.html
+pullquote-variations.html
+rollover-preview.html
+sparse-vs-variation-d.html
+splash-lab.html
+sysop-status-compare.html
+table-variations.html
+v1-amber.html
+v2-phosphor.html
+v3-arctic.html
+v4-legible.html
+v5-crisp.html
+variation-critique.html
+video-thumbnail-preview.html
+what-changed-compare.html
+what-changed-story.html
+width-compare.html
+Article Layouts (1).html
