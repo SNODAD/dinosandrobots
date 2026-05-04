@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="format-detection" content="telephone=no">
 <link rel="icon" type="image/png" href="/media/favicon.png">
 <link rel="apple-touch-icon" sizes="180x180" href="/media/favicon.png">
 <meta name="theme-color" content="#0a0008">
@@ -17,14 +18,14 @@
 <meta property="og:title" content="Jason Unck · Principal UX Designer">
 <meta property="og:description" content="Principal UX Designer with 20+ years shipping progression systems, battle passes, and companion apps for Halo, Star Wars, and Lord of the Rings. Now building with AI every day.">
 <meta property="og:url" content="https://dinosandrobots.com">
-<meta property="og:image" content="https://dinosandrobots.com/media/home.png">
+<meta property="og:image" content="https://dinosandrobots.com/media/dinos-robots-heart.jpg">
 <meta property="og:site_name" content="Jason Unck BBS">
 
 <!-- Twitter Card -->
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Jason Unck · Principal UX Designer">
 <meta name="twitter:description" content="Principal UX Designer with 20+ years shipping progression systems, battle passes, and companion apps for Halo, Star Wars, and Lord of the Rings. Now building with AI every day.">
-<meta name="twitter:image" content="https://dinosandrobots.com/media/home.png">
+<meta name="twitter:image" content="https://dinosandrobots.com/media/dinos-robots-heart.jpg">
 
 <!-- JSON-LD -->
 <script type="application/ld+json">
@@ -2628,7 +2629,7 @@ body.scrolled
 <div id="screen">
 
   <!-- MOBILE NAV BAR — fixed bottom, doc/sysop only; remove div + CSS block + setMobileNav calls to revert -->
-  <nav id="mobile-nav" aria-label="Mobile navigation"></nav>
+  <nav id="mobile-nav" aria-label="Mobile navigation" style="display:none"></nav>
 
   <!-- STATUS BAR -->
   <div id="statusbar">
@@ -2919,7 +2920,7 @@ ${menuHTML}
   <span class="gc">[↑↓]</span> <span style="color:#666;">Navigate</span>&nbsp;&nbsp;<span class="gg">[Enter]</span> <span style="color:#666;">Open</span>&nbsp;&nbsp;<a href="https://jasonunck.com" target="_blank" rel="noopener" style="text-decoration:none;"><span class="gc">[W]</span> <span style="color:#666;">jasonunck.com</span></a>&nbsp;&nbsp;<a href="mailto:design@jasonunck.com" style="text-decoration:none;"><span class="gm">[C]</span> <span style="color:#666;">Contact</span></a>
 </div>
 `;
-  setMobileNav([
+  if (currentScreen === 'main') setMobileNav([
     {key:'W', keyColor:'gc', label:'jasonunck.com', href:'https://jasonunck.com', target:'_blank'},
     {key:'C', keyColor:'gm', label:'Contact',       href:'mailto:design@jasonunck.com'}
   ]);
@@ -2933,11 +2934,13 @@ ${menuHTML}
 function setMobileNav(items) {
   const el = document.getElementById('mobile-nav');
   if (!el) return;
+  if (!items || !items.length) { el.innerHTML = ''; el.style.display = 'none'; return; }
   el.innerHTML = items.map(i => {
     const keySpan = `<span class="${i.keyColor||'gg'}">[${i.key}]</span><span class="nav-lbl" style="color:#888;">${i.label}</span>`;
     if (i.href) return `<a href="${i.href}"${i.target ? ` target="${i.target}" rel="noopener"` : ''} style="text-decoration:none;" class="nav-tap">${keySpan}</a>`;
     return `<span class="nav-tap" role="button" tabindex="0" onclick="${i.fn}">${keySpan}</span>`;
   }).join('');
+  el.style.display = '';
 }
 // ─── BOARD VIEW ──────────────────────────────────────────
 let currentBoard = null;
@@ -2996,10 +2999,10 @@ function openBoard(id) {
 
   /* RECOMMENDED-A — remove this block to revert to SPARSE-STATE */
   const ghostRows = {
-    messages: ['[ COMING SOON ]', '[ COMING SOON ]'],
-    doors:    ['[ COMING SOON ]', '[ COMING SOON ]'],
+    messages: ['[ COMING SOON ]', '[ COMING SOON ]', '[ COMING SOON ]', '[ COMING SOON ]', '[ COMING SOON ]', '[ COMING SOON ]', '[ COMING SOON ]'],
+    doors:    ['[ COMING SOON ]', '[ COMING SOON ]', '[ COMING SOON ]', '[ COMING SOON ]', '[ COMING SOON ]', '[ COMING SOON ]', '[ COMING SOON ]'],
   };
-  const redacted = (b.items.length <= 2 && ghostRows[id]) ? ghostRows[id].map(label => `
+  const redacted = (b.items.length <= 7 && ghostRows[id]) ? ghostRows[id].map(label => `
 <div style="display:flex;gap:12px;align-items:baseline;padding:8px 0;border-bottom:1px solid #1a1a1a;opacity:0.55;pointer-events:none;cursor:default;">
   <div style="font-family:'VT323',monospace;font-size:15px;color:#444;min-width:38px;">···</div>
   <div style="font-family:'VT323',monospace;font-size:17px;color:#444;">${label}</div>
