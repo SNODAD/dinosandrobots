@@ -2632,7 +2632,7 @@ body.scrolled
   <nav id="mobile-nav" aria-label="Mobile navigation" style="display:none"></nav>
 
   <!-- STATUS BAR -->
-  <div id="statusbar">
+  <div id="statusbar" style="display:none">
     <span id="status-left">JASON:UNCK BBS v2.6 &#9632; LINE 1 ACTIVE</span>
     <span id="clock">--:--:--</span>
   </div>
@@ -2859,6 +2859,7 @@ function show(id) {
   document.querySelectorAll('.vscreen').forEach(s=>s.classList.remove('active'));
   document.getElementById('s-'+id).classList.add('active');
   currentScreen = id;
+  if (id !== 'boot') { const sb = document.getElementById('statusbar'); if (sb) sb.style.display = ''; }
   /* FACE-EMBED — restore to stash when leaving doc screen; to revert remove this block */
   if (id !== 'doc') {
     const embed = document.getElementById('face-embed');
