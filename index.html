@@ -1282,6 +1282,18 @@ hr.sep { border:none; border-top:1px solid #222; margin:6px 0; }
   margin-bottom: 8px;
 }
 .sysop-g-bio-label::after { content: ' ·'; }
+.sysop-g-section-title {
+  font-family: 'VT323', monospace;
+  font-size: 22px;
+  font-weight: 400;
+  line-height: 1.2;
+  letter-spacing: 0;
+  color: #55ffff;
+  text-shadow: 0 0 8px rgba(85,255,255,0.28);
+  margin: 36px 0 10px;
+  max-width: 58ch;
+}
+.sysop-g-section-title::after { content: ' ·'; color: #008888; text-shadow: none; }
 .sysop-g-prose p.sysop-g-bio { margin-top: 0; color: #555; font-size: 13px; }
 .sysop-g-byline { font-family: 'IBM Plex Mono', monospace; font-size: 12px; font-weight: 300; color: #555; max-width: 74ch; border-top: 1px solid #222; padding-top: 14px; margin-top: 44px; letter-spacing: .03em; }
 .sysop-g-coda {
@@ -3177,8 +3189,9 @@ function renderSysop() {
 
 <div class="sysop-g-prose">
   <p class="lead">Turns out dinosaurs and robots make a pretty good team.</p>
-  <p>Experienced designers have years of a proven workflow and are able to trust their intuition. In my personal experience, AI has helped speed that process up by 83%. We've adapted to every new tool the industry has thrown at us. AI is just the latest one.</p>
-  <p>Live experiments. Real process. Things I figured out that might save you time. This is the companion to jasonunck.com: the place where the work that doesn't fit a formal portfolio lives. Writing here keeps me honest about what I'm learning and forces me to remember my own process. The faster AI moves, the more I need a place like this to keep up with it. And if someone else can take what I figure out and build with it, I did my job twice.</p>
+  <p>Experienced designers have intuition. It's how we work. It's who we are. When designing my portfolio, AI closed the gap from good to polish by 83%. The speed is AI. The work is still yours. Now you get to ship as fast as you think. We've adapted to every tool the industry has thrown at us. But this one's different. It's not Figma, and it's certainly not Dreamweaver. Let's use AI before it uses us.</p>
+  <h3 class="sysop-g-section-title">What this is</h3>
+  <p>A place to learn AI out loud. Live experiments. Real process. Things I figured out that might save you time. This is the companion to jasonunck.com: the place for work that doesn't fit a formal portfolio vibe. AI moves fast. Writing here is how we keep up. And if someone else can take what I figure out and build with it, I did my job twice.</p>
   <div class="sysop-g-coda">
     <div class="sysop-g-coda-text"><span class="sysop-g-coda-bracket">[ </span>"This site updates as I learn."<span class="sysop-g-coda-bracket"> ]</span></div>
     <div style="display:flex;justify-content:center;"><div class="sysop-g-coda-rule"></div></div>
