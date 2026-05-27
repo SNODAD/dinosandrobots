@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#0a0008">
+<title>The Hidden Market — JASON:UNCK BBS</title>
+<link rel="icon" type="image/png" href="/media/favicon.png">
+<link href="https://fonts.googleapis.com/css2?family=VT323&family=IBM+Plex+Mono:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+
+:root {
+  --bg:      #000000;
+  --gcyan:   #55ffff;
+  --dcyan:   #008888;
+  --ggreen:  #55ff55;
+  --dgreen:  #008800;
+  --gyellow: #ffff55;
+  --dyellow: #888800;
+  --gmagenta:#ff55ff;
+  --dmagenta:#880088;
+  --gwhite:  #ffffff;
+  --gray:    #aaaaaa;
+  --dgray:   #555555;
+  --ddgray:  #2a2a2a;
+  --gred:    #ff5555;
+  --ddcyan:  #006666;
+}
+
+html, body {
+  background: #0a0008;
+  height: 100dvh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'VT323', monospace;
+  font-size: 17px;
+  line-height: 1.25;
+}
+
+/* Tablet: 640px+ */
+@media (min-width: 640px) {
+  html, body { font-size: 19px; }
+  #monitor {
+    width: min(900px, 97vw);
+    height: min(700px, 91vh);
+    box-shadow:
+      0 0 0 2px #111,
+      0 0 40px 8px rgba(0,200,200,0.08),
+      0 0 120px 20px rgba(0,0,0,0.9);
+  }
+  #screen { padding: 16px 20px 40px 20px; }
+}
+
+/* Desktop: 1024px+ */
+@media (min-width: 1024px) {
+  html, body { font-size: 19px; }
+  #monitor {
+    width: min(1280px, 95vw);
+    height: min(880px, 91vh);
+  }
+  #screen { padding: 20px 26px 44px 26px; }
+}
+
+/* Large desktop: 1440px+ */
+@media (min-width: 1440px) {
+  html, body { font-size: 20px; }
+  #monitor {
+    width: min(1400px, 94vw);
+    height: min(940px, 90vh);
+  }
+  #screen { padding: 22px 30px 46px 30px; }
+}
+
+/* ── CRT SHELL ── */
+#monitor {
+  position: relative;
+  width: 100vw;
+  height: 100dvh;
+  background: #000;
+  overflow: hidden;
+}
+#monitor::after {
+  content:'';
+  position:absolute;
+  inset:0;
+  background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.06) 2px, rgba(0,0,0,0.06) 4px);
+  pointer-events:none;
+  z-index:50;
+}
+#monitor::before {
+  content:'';
+  position:absolute;
+  inset:0;
+  background: radial-gradient(ellipse 90% 85% at 50% 50%, transparent 55%, rgba(0,0,0,0.75) 100%);
+  pointer-events:none;
+  z-index:70;
+}
+
+/* ── SCREEN AREA ── */
+#screen {
+  position:absolute;
+  inset:0;
+  padding: 12px 14px 38px 14px;
+  overflow:hidden;
+}
+
+/* ── STATUS BAR ── */
+#statusbar {
+  position:absolute;
+  bottom:0; left:0; right:0;
+  height:24px;
+  background: var(--dcyan);
+  color:#000;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:0 6px;
+  font-size:17px;
+  z-index:200;
+}
+#status-left {
+  flex:1;
+  min-width:0;
+  overflow:hidden;
+  white-space:nowrap;
+  text-overflow:ellipsis;
+}
+
+/* ── DOC VIEW ── */
+#s-doc { height:100%; display:flex; flex-direction:column; }
+.scroll-body { flex:1; min-height:0; overflow-y:auto; overflow-x:hidden; scrollbar-width:none; }
+.scroll-body::-webkit-scrollbar { display:none; }
+
+/* ── MAST ── */
+.a-mast {
+  display:flex;
+  justify-content:space-between;
+  align-items:baseline;
+  flex-wrap:wrap;
+  gap:6px 18px;
+  font-family:'VT323',monospace;
+  font-size:18px;
+  letter-spacing:0.04em;
+  border-bottom:1px solid var(--ddcyan);
+  padding:0 0 8px;
+  margin:0 0 14px;
+  color:var(--dcyan);
+}
+.a-mast .l { display:flex; gap:14px; flex-wrap:wrap; }
+.a-mast .l b { color:var(--gcyan); text-shadow:0 0 6px var(--gcyan); font-weight:400; }
+.a-mast .r { color:var(--dgray); font-size:16px; }
+
+/* ── DOC TYPOGRAPHY ── */
+.doc-tech {
+  font-family:'IBM Plex Mono', monospace;
+  font-size:13px;
+  line-height:1.75;
+  color:#a8a8a8;
+  letter-spacing:0.01em;
+  font-weight:300;
+  padding:0 28px;
+}
+.doc-tech p { margin-bottom:20px; max-width:74ch; }
+
+/* ── LEDGER ── */
+.doc-tech .ledger {
+  border-top:1px solid rgba(0,136,136,0.25);
+  border-bottom:1px solid rgba(0,136,136,0.25);
+  background:rgba(0,136,136,0.04);
+  padding:16px 12px;
+  margin:30px 0;
+  max-width:74ch;
+}
+.doc-tech .ledger-row { display:flex; align-items:baseline; margin-bottom:5px; }
+.doc-tech .ledger-row:last-child { margin-bottom:0; }
+.doc-tech .ledger-lbl { font-size:12px; letter-spacing:.08em; text-transform:uppercase; color:#555; white-space:nowrap; }
+.doc-tech .ledger-fill { flex:1; border-bottom:1px dashed #252525; margin:0 8px 4px; }
+.doc-tech .ledger-val { font-size:14px; font-weight:700; color:#55ff55; }
+.doc-tech .ledger--neutral .ledger-lbl { color:#c0c0c0; text-transform:none; font-size:13px; letter-spacing:0.02em; }
+.doc-tech .ledger--neutral .ledger-val { color:#555; font-weight:300; font-size:12px; }
+.doc-tech .ledger--neutral { background:rgba(0,136,136,0.1); }
+
+/* ── DEMO BLOCK ── */
+.demo-block { margin:0; padding-top:28px; border-top:none; max-width:100%; }
+.demo-head {
+  display:flex;
+  align-items:baseline;
+  justify-content:space-between;
+  flex-wrap:wrap;
+  gap:6px 18px;
+  font-family:'VT323',monospace;
+  font-size:17px;
+  color:var(--dcyan);
+  margin-bottom:14px;
+  letter-spacing:0.06em;
+}
+.demo-head .l { display:flex; gap:14px; flex-wrap:wrap; align-items:baseline; }
+.demo-head .pill {
+  font-size:14px;
+  letter-spacing:0.18em;
+  color:#0a0008;
+  background:var(--gyellow);
+  padding:1px 8px 0;
+  text-shadow:none;
+  box-shadow:0 0 12px var(--gyellow);
+}
+.demo-head .ttl { color:var(--gwhite); text-shadow:0 0 6px var(--gwhite); font-size:19px; letter-spacing:0.04em; }
+.demo-head .r { color:var(--dgray); font-size:15px; letter-spacing:0.16em; }
+
+/* PSO row tightening */
+.doc-tech .ledger.demo-pso { background:rgba(0,136,136,0.04); max-width:100%; }
+.demo-pso .ledger-row { align-items:baseline; margin-bottom:6px; }
+.demo-pso .ledger-lbl { min-width:80px; color:#555; font-size:11px; letter-spacing:.14em; text-transform:uppercase; }
+.demo-pso .ledger-val { font-size:13px; font-weight:300; color:#a8a8a8; white-space:normal; }
+.demo-pso .ledger-val.outcome { color:var(--ggreen); text-shadow:0 0 6px rgba(85,255,85,0.25); }
+
+/* prose + section line */
+.demo-prose { font-size:13px; line-height:1.88; color:#a8a8a8; max-width:74ch; margin:0 0 20px; }
+.demo-article-line {
+  font-family:'IBM Plex Mono',monospace;
+  font-size:12px;
+  font-weight:300;
+  letter-spacing:0.16em;
+  color:#009999;
+  text-transform:uppercase;
+  margin:36px 0 14px;
+}
+
+/* screenshot placeholder frame */
+.demo-hero-ph {
+  position:relative;
+  width:100%;
+  background:#050505;
+  border:1px solid #1a3a3a;
+  margin:24px 0 4px;
+  overflow:hidden;
+}
+.demo-hero-ph--narrow { max-width: 720px; aspect-ratio: 16/9; }
+.demo-hero-ph::before {
+  content:'';
+  position:absolute;
+  inset:0;
+  background:repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(85,255,255,0.02) 3px, rgba(85,255,255,0.02) 4px);
+  pointer-events:none;
+}
+.demo-hero-ph.placeholder {
+  background:
+    linear-gradient(135deg,rgba(255,255,255,0.02) 0%,transparent 50%,rgba(255,255,255,0.02) 100%),
+    repeating-linear-gradient(45deg,#1a1a1a 0px,#1a1a1a 1px,#141414 1px,#141414 14px),
+    #181818;
+}
+.demo-hero-ph--header {
+  max-width: 720px;
+  width: 100%;
+  margin: 4px 0 20px;
+  aspect-ratio: 5 / 1;
+  max-height: 200px;
+}
+.demo-hero-ph--header .demo-hero-label { font-size: 14px; letter-spacing: 0.22em; }
+.demo-hero-ph--header .demo-hero-label .type { font-size: 16px; margin-bottom: 2px; }
+.demo-hero-ph--header .demo-hero-label .meta { font-size: 11px; margin-top: 4px; }
+.demo-hero-corner { position:absolute; width:14px; height:14px; border:1px solid var(--dcyan); }
+.demo-hero-corner.tl { top:8px; left:8px; border-right:none; border-bottom:none; }
+.demo-hero-corner.tr { top:8px; right:8px; border-left:none; border-bottom:none; }
+.demo-hero-corner.bl { bottom:8px; left:8px; border-right:none; border-top:none; }
+.demo-hero-corner.br { bottom:8px; right:8px; border-left:none; border-top:none; }
+.demo-hero-label {
+  position:absolute;
+  top:50%; left:50%;
+  transform:translate(-50%,-50%);
+  font-family:'VT323',monospace;
+  font-size:18px;
+  color:var(--gray);
+  letter-spacing:0.28em;
+  text-align:center;
+  padding:0 16px;
+}
+.demo-hero-label .type {
+  display:block;
+  color:var(--gwhite);
+  text-shadow:0 0 6px var(--gwhite);
+  font-size:22px;
+  margin-bottom:4px;
+}
+.demo-hero-label .meta { display:block; color:var(--dgray); font-size:13px; letter-spacing:0.22em; margin-top:6px; }
+.demo-img-caption {
+  padding:6px 0 0;
+  font-family:'IBM Plex Mono',monospace;
+  font-size:11px;
+  font-weight:300;
+  color:#555;
+  letter-spacing:0.06em;
+  max-width:74ch;
+}
+
+/* code block for folder tree */
+.bbs-code {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 13px;
+  line-height: 1.7;
+  color: var(--ggreen);
+  background: #050505;
+  border: 1px solid #1a3a3a;
+  padding: 16px 18px;
+  margin: 12px 0 24px;
+  max-width: 74ch;
+  overflow-x: auto;
+  white-space: pre;
+  text-shadow: 0 0 6px rgba(85,255,85,0.15);
+}
+
+/* byline + nav */
+.doc-byline {
+  font-family:'IBM Plex Mono', monospace;
+  font-size:12px;
+  font-weight:300;
+  color:#555;
+  letter-spacing:0.02em;
+  max-width:74ch;
+  margin-top:44px;
+}
+.inline-nav {
+  margin-top:20px;
+  border-top:1px solid #1e1e1e;
+  padding-top:14px;
+  font-family:'VT323',monospace;
+  font-size:17px;
+  letter-spacing:0;
+  line-height:1.25;
+}
+.inline-nav a, .inline-nav .nav-tap { text-decoration:none; cursor:pointer; }
+.gc { color:var(--gcyan); text-shadow:0 0 5px var(--gcyan); }
+.gg { color:var(--ggreen); text-shadow:0 0 5px var(--ggreen); }
+.gm { color:var(--gmagenta); text-shadow:0 0 4px var(--gmagenta); }
+
+/* responsive */
+@media (max-width: 720px) {
+  .doc-tech { padding: 0 14px; }
+  .demo-head .r { font-size:13px; }
+  .demo-hero-ph { aspect-ratio: 4/3; }
+  .demo-hero-label { font-size:15px; letter-spacing:0.22em; }
+}
+</style>
+</head>
+<body>
+
+<div id="monitor">
+  <div id="screen">
+
+    <div id="statusbar">
+      <span id="status-left">JASON:UNCK BBS v2.6 &#9632; The Hidden Market</span>
+      <span id="clock">--:--:--</span>
+    </div>
+
+    <div id="s-doc">
+      <div class="scroll-body" id="doc-body">
+
+        <div class="a-mast">
+          <div class="l">
+            <span><b>JASON:UNCK BBS</b></span>
+            <span>1:104/926</span>
+            <span>DOOR GAMES</span>
+          </div>
+          <div class="r">LINE 1 &#9472; V.34</div>
+        </div>
+
+        <div class="doc-tech">
+          <div class="demo-block">
+
+            <div class="demo-head" style="max-width:720px;">
+              <div class="l">
+                <span class="pill">DOSSIER</span>
+                <span class="ttl">THE&nbsp;HIDDEN&nbsp;MARKET</span>
+              </div>
+              <div class="r">AUTOMATED&nbsp;·&nbsp;DAILY&nbsp;8:00&nbsp;·&nbsp;CLAUDE&nbsp;+&nbsp;COWORK</div>
+            </div>
+
+            <div class="demo-hero-ph placeholder demo-hero-ph--header">
+              <span class="demo-hero-corner tl"></span>
+              <span class="demo-hero-corner tr"></span>
+              <span class="demo-hero-corner bl"></span>
+              <span class="demo-hero-corner br"></span>
+              <div class="demo-hero-label">
+                <span class="type">[ HEADER IMAGE ]</span>
+                THE HIDDEN MARKET
+                <span class="meta">drop image here &middot; ~1600 &times; 720</span>
+              </div>
+            </div>
+
+            <div class="ledger ledger--neutral demo-pso" style="margin:20px 0 0;max-width:720px;">
+              <div class="ledger-row">
+                <span class="ledger-lbl">PROBLEM</span>
+                <span class="ledger-fill"></span>
+                <span class="ledger-val">Job boards show you what's already been passed around internally for weeks.</span>
+              </div>
+              <div class="ledger-row">
+                <span class="ledger-lbl">SOLUTION</span>
+                <span class="ledger-fill"></span>
+                <span class="ledger-val">Built an automated research workflow in Claude and Cowork that searches 20+ sources every morning, scores every role against a custom profile, and saves a ranked report before I finish my coffee.</span>
+              </div>
+              <div class="ledger-row" style="margin-bottom:0;">
+                <span class="ledger-lbl">OUTCOME</span>
+                <span class="ledger-fill"></span>
+                <span class="ledger-val outcome">Automated the research. Freed the time for actual applications.</span>
+              </div>
+            </div>
+
+            <div class="demo-article-line">WORKFLOW &middot;</div>
+
+            <p class="demo-prose">Job boards are a lagging indicator. By the time a role hits Hitmarker it's already been shopped internally for weeks. I wanted a system that got ahead of that. Not a search. A workflow that runs without me.</p>
+
+            <p class="demo-prose">Opened Claude Desktop. Switched to Cowork mode. Clicked New Task. Typed a prompt: research game UX jobs and save a report. It ran. Then it failed. No folder to save to.</p>
+
+            <p class="demo-prose">That's the first thing Cowork taught me. Build the environment before you build the workflow. So I asked it to build the folder structure itself.</p>
+
+            <div class="demo-hero-ph demo-hero-ph--narrow placeholder">
+              <span class="demo-hero-corner tl"></span>
+              <span class="demo-hero-corner tr"></span>
+              <span class="demo-hero-corner bl"></span>
+              <span class="demo-hero-corner br"></span>
+              <div class="demo-hero-label">
+                <span class="type">[ SCREENSHOT ]</span>
+                PROMPT
+                <span class="meta">drop image here &middot; ~1600 &times; 900</span>
+              </div>
+            </div>
+            <div class="demo-img-caption">The prompt that started it.</div>
+
+            <p class="demo-prose" style="margin-top:24px;">It created this:</p>
+
+<pre class="bbs-code">/Users/jason/Desktop/JobHunt/
+&#9500;&#9472;&#9472; COWORK-INSTRUCTIONS.md
+&#9500;&#9472;&#9472; weekly-reports/
+&#9492;&#9472;&#9472; applied/</pre>
+
+            <p class="demo-prose">Cowork wrote the file, confirmed it was ready. Ran it. First report landed in 15 minutes. Scheduled it for 8am daily and didn't touch it again.</p>
+
+            <p class="demo-prose">Since then I've tweaked the prompt a few times. Small adjustments. Tighter language around what I'm actually looking for. The results have gotten better with each iteration. More accurate. More tailored. The system gets better when the instructions get better. That's the job.</p>
+
+            <p class="demo-prose">Seven roles. Nothing cleared 70%. A remote role at a casual mobile studio scored 45%. Wrong work. No progression systems, no live service, no IP. A hybrid role in Seattle at a AAA studio working on reward economies scored 68%. Close. Would have cleared if it were remote. The system wasn't filtering location. It was scoring the actual work against the actual job.</p>
+
+            <p class="demo-prose">That's the value. A system that tells you the truth is more useful than one that makes you feel good.</p>
+
+            <p class="demo-prose">Every morning the report is there. Open the folder. Read it. Apply to what matters.</p>
+
+            <p class="demo-prose">One more layer. I run a parallel search in Gemini with Deep Research enabled using the same profile. Manual for now, but the logic is simple. If a role surfaces in both, it's a priority application. Two AIs finding the same role means it's real and it's a fit.</p>
+
+            <div class="doc-byline">I'm a Principal UX Designer who shipped UX for Halo, Star Wars, and Lord of the Rings. Currently designing at jasonunck.com</div>
+
+            <div class="inline-nav">
+              <a href="index.html"><span class="gg">[Q]</span> <span style="color:#666;">Back to BBS</span></a>&nbsp;&nbsp;
+              <a href="https://jasonunck.com" target="_blank" rel="noopener"><span class="gc">[W]</span> <span style="color:#666;">jasonunck.com</span></a>&nbsp;&nbsp;
+              <a href="mailto:design@jasonunck.com"><span class="gm">[C]</span> <span style="color:#666;">Contact</span></a>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  function tick() {
+    var d = new Date();
+    var pad = function(n){ return String(n).padStart(2,'0'); };
+    var el = document.getElementById('clock');
+    if (el) el.textContent = pad(d.getHours()) + ':' + pad(d.getMinutes()) + ':' + pad(d.getSeconds());
+  }
+  tick();
+  setInterval(tick, 1000);
+</script>
+
+</body>
+</html>

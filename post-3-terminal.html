@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Post 3 — Terminal Output</title>
+<link href="https://fonts.googleapis.com/css2?family=VT323&family=IBM+Plex+Mono:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --gcyan: #55ffff;
+  --dcyan: #008888;
+  --ggreen: #55ff55;
+  --dgreen: #008800;
+  --gyellow: #ffff55;
+  --gwhite: #ffffff;
+  --gray: #a8a8a8;
+  --dgray: #555;
+  --rose: #ff8866;
+}
+html, body {
+  background: #0a0008;
+  min-height: 100vh;
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'IBM Plex Mono', monospace;
+}
+#canvas {
+  width: 1080px; height: 1080px;
+  position: relative; overflow: hidden;
+  background: #000; flex-shrink: 0;
+}
+#bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 1; }
+#scrim {
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse 85% 70% at 50% 50%, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.85) 60%, rgba(0,0,0,0.97) 100%);
+  z-index: 2;
+}
+#scanlines {
+  position: absolute; inset: 0;
+  background: repeating-linear-gradient(0deg, transparent 0 2px, rgba(0,0,0,0.18) 2px 3px);
+  z-index: 3; pointer-events: none; mix-blend-mode: multiply;
+}
+
+#card {
+  position: absolute;
+  top: 100px; bottom: 130px;
+  left: 90px; right: 90px;
+  z-index: 4;
+  background: rgba(0,0,0,0.55);
+  border: 1px solid rgba(0,136,136,0.7);
+  box-shadow: 0 0 40px rgba(85,255,255,0.08), inset 0 0 0 1px rgba(0,0,0,0.6);
+  display: flex; flex-direction: column;
+  overflow: hidden;
+}
+
+.titlebar {
+  background: rgba(0,136,136,0.18);
+  border-bottom: 1px solid rgba(0,136,136,0.55);
+  padding: 12px 22px;
+  display: flex; justify-content: space-between; align-items: center;
+  font-family: 'VT323', monospace;
+  font-size: 24px;
+  letter-spacing: 0.08em;
+  color: var(--dcyan);
+}
+.titlebar .l b { color: var(--gcyan); text-shadow: 0 0 8px var(--gcyan); font-weight: 400; }
+.titlebar .r {
+  font-size: 16px;
+  color: #0a0008; background: var(--ggreen);
+  padding: 2px 10px 0;
+  letter-spacing: 0.22em;
+  box-shadow: 0 0 14px var(--ggreen);
+}
+
+.term {
+  flex: 1;
+  padding: 36px 42px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-weight: 400;
+  font-size: 22px;
+  line-height: 1.55;
+  color: var(--gray);
+  letter-spacing: 0.005em;
+}
+.term .prompt { color: var(--gcyan); text-shadow: 0 0 6px var(--gcyan); }
+.term .cmd { color: var(--gwhite); }
+.term .ok { color: var(--ggreen); text-shadow: 0 0 6px rgba(85,255,85,0.4); }
+.term .num { color: var(--gyellow); }
+.term .path { color: var(--rose); }
+.term .blink {
+  display: inline-block;
+  width: 12px; height: 24px;
+  background: var(--ggreen);
+  vertical-align: -4px;
+  margin-left: 4px;
+  animation: blink 1.05s infinite;
+  box-shadow: 0 0 8px var(--ggreen);
+}
+@keyframes blink { 0%, 49% { opacity: 1; } 50%, 100% { opacity: 0; } }
+.term .spacer { display: block; height: 14px; }
+.term .bar {
+  display: inline-block;
+  font-family: 'VT323', monospace;
+  letter-spacing: 0;
+  color: var(--ggreen);
+  font-size: 24px;
+  margin: 0 6px;
+}
+
+.tagline {
+  font-family: 'VT323', monospace;
+  font-size: 30px;
+  color: var(--gyellow);
+  text-shadow: 0 0 10px rgba(255,255,85,0.35);
+  letter-spacing: 0.04em;
+  margin-top: 14px;
+}
+
+#brand {
+  position: absolute;
+  bottom: 56px;
+  left: 0; right: 0;
+  text-align: center;
+  z-index: 5;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 18px;
+  color: var(--dcyan);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+#brand .sep { color: #333; margin: 0 14px; }
+</style>
+</head>
+<body>
+<div id="canvas">
+  <img id="bg" src="media/post-bg.png" alt="">
+  <div id="scrim"></div>
+  <div id="scanlines"></div>
+
+  <div id="card">
+
+    <div class="titlebar">
+      <div class="l"><b>JASON:UNCK&nbsp;BBS</b>&nbsp;&nbsp;TASK&nbsp;001 &nbsp;&middot;&nbsp; THE&nbsp;HIDDEN&nbsp;MARKET</div>
+      <div class="r">RUN</div>
+    </div>
+
+    <div class="term">
+<span class="prompt">&gt;</span> <span class="cmd">opened claude desktop</span><br>
+<span class="prompt">&gt;</span> <span class="cmd">switched to cowork mode</span><br>
+<span class="prompt">&gt;</span> <span class="cmd">prompt: research game UX jobs · save report</span>
+<span class="spacer"></span>
+RUNNING <span class="bar">▓▓▓▓▓▓▓▓░░</span> <span class="num">82%</span>
+<span class="spacer"></span>
+<span class="ok">✓</span> sources scanned ........ <span class="num">20+</span><br>
+<span class="ok">✓</span> roles found    ........ <span class="num">7</span><br>
+<span class="ok">✓</span> top match     ........ <span class="num">68%</span><br>
+<span class="ok">✓</span> report saved   ........ <span class="path">weekly-reports/2026-05-26.md</span>
+<span class="spacer"></span>
+<span class="prompt">&gt;</span> <span class="cmd">scheduled 8 am daily</span><br>
+<span class="prompt">&gt;</span> <span class="cmd">i don't touch it anymore</span>
+<span class="spacer"></span>
+<div class="tagline">Precision over patience.</div>
+<span class="spacer"></span>
+<span class="prompt">PROMPT</span><span class="blink"></span>
+    </div>
+
+  </div>
+
+  <div id="brand">jasonunck.com<span class="sep">·</span>linkedin.com/in/junck</div>
+</div>
+</body>
+</html>

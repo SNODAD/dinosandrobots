@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#0a0008">
+<title>The Market Is Real — JASON:UNCK BBS</title>
+<link rel="icon" type="image/png" href="/media/favicon.png">
+<link href="https://fonts.googleapis.com/css2?family=VT323&family=IBM+Plex+Mono:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+
+:root {
+  --bg:      #000000;
+  --gcyan:   #55ffff;
+  --dcyan:   #008888;
+  --ggreen:  #55ff55;
+  --dgreen:  #008800;
+  --gyellow: #ffff55;
+  --dyellow: #888800;
+  --gmagenta:#ff55ff;
+  --dmagenta:#880088;
+  --gwhite:  #ffffff;
+  --gray:    #aaaaaa;
+  --dgray:   #555555;
+  --ddgray:  #2a2a2a;
+  --gred:    #ff5555;
+  --ddcyan:  #006666;
+}
+
+html, body {
+  background: #0a0008;
+  height: 100dvh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'VT323', monospace;
+  font-size: 17px;
+  line-height: 1.25;
+}
+
+@media (min-width: 640px) {
+  html, body { font-size: 19px; }
+  #monitor {
+    width: min(900px, 97vw);
+    height: min(700px, 91vh);
+    box-shadow:
+      0 0 0 2px #111,
+      0 0 40px 8px rgba(0,200,200,0.08),
+      0 0 120px 20px rgba(0,0,0,0.9);
+  }
+  #screen { padding: 16px 20px 40px 20px; }
+}
+@media (min-width: 1024px) {
+  html, body { font-size: 19px; }
+  #monitor {
+    width: min(1280px, 95vw);
+    height: min(880px, 91vh);
+  }
+  #screen { padding: 20px 26px 44px 26px; }
+}
+@media (min-width: 1440px) {
+  html, body { font-size: 20px; }
+  #monitor {
+    width: min(1400px, 94vw);
+    height: min(940px, 90vh);
+  }
+  #screen { padding: 22px 30px 46px 30px; }
+}
+
+#monitor {
+  position: relative;
+  width: 100vw;
+  height: 100dvh;
+  background: #0a0008;
+  overflow: hidden;
+}
+#monitor::after {
+  content:'';
+  position:absolute;
+  inset:0;
+  background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.06) 2px, rgba(0,0,0,0.06) 4px);
+  pointer-events:none;
+  z-index:50;
+}
+#monitor::before {
+  content:'';
+  position:absolute;
+  inset:0;
+  background: radial-gradient(ellipse 90% 85% at 50% 50%, transparent 55%, rgba(0,0,0,0.75) 100%);
+  pointer-events:none;
+  z-index:70;
+}
+
+#screen {
+  position:absolute;
+  inset:0;
+  padding: 12px 14px 38px 14px;
+  overflow:hidden;
+}
+
+#statusbar {
+  position:absolute;
+  bottom:0; left:0; right:0;
+  height:24px;
+  background: var(--dcyan);
+  color:#000;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:0 6px;
+  font-size:17px;
+  z-index:200;
+}
+#status-left {
+  flex:1;
+  min-width:0;
+  overflow:hidden;
+  white-space:nowrap;
+  text-overflow:ellipsis;
+}
+
+#s-doc { height:100%; display:flex; flex-direction:column; }
+.scroll-body { flex:1; min-height:0; overflow-y:auto; overflow-x:hidden; scrollbar-width:none; }
+.scroll-body::-webkit-scrollbar { display:none; }
+
+.a-mast {
+  display:flex;
+  justify-content:space-between;
+  align-items:baseline;
+  flex-wrap:wrap;
+  gap:6px 18px;
+  font-family:'VT323',monospace;
+  font-size:18px;
+  letter-spacing:0.04em;
+  border-top: 3px double var(--dcyan);
+  border-bottom: 3px double var(--dcyan);
+  padding: 9px 0;
+  margin: 0 0 14px;
+  color: var(--dcyan);
+}
+.a-mast .l { display: flex; gap: 14px; flex-wrap: wrap; }
+.a-mast .l b { color: var(--gcyan); text-shadow: 0 0 6px var(--gcyan); font-weight: 400; }
+.a-mast .r { color: var(--dgray); font-size: 16px; }
+
+.doc-tech {
+  font-family:'IBM Plex Mono', monospace;
+  font-size:13px;
+  line-height:1.75;
+  color:#a8a8a8;
+  letter-spacing:0.01em;
+  font-weight:300;
+  padding:0 28px;
+}
+.doc-tech p { margin-bottom:20px; max-width:74ch; }
+
+/* ── DEMO BLOCK ── */
+.demo-block { margin:0; padding-top:28px; border-top:none; }
+.demo-head {
+  display:flex;
+  align-items:baseline;
+  justify-content:space-between;
+  flex-wrap:wrap;
+  gap:6px 18px;
+  font-family:'VT323',monospace;
+  font-size:17px;
+  color:var(--dcyan);
+  margin-bottom:14px;
+  letter-spacing:0.06em;
+}
+.demo-head .l { display:flex; gap:14px; flex-wrap:wrap; align-items:baseline; }
+.demo-head .pill {
+  font-size:14px;
+  letter-spacing:0.18em;
+  color:#0a0008;
+  background:var(--gyellow);
+  padding:1px 8px 0;
+  text-shadow:none;
+  box-shadow:0 0 12px var(--gyellow);
+}
+.demo-head .ttl { color:var(--gwhite); text-shadow:0 0 6px var(--gwhite); font-size:28px; letter-spacing:0.03em; line-height:1.05; }
+.demo-head .r { color:var(--dgray); font-size:15px; letter-spacing:0.16em; }
+
+.demo-intro { font-size:15px; line-height:1.82; color:#c0c0c0; max-width:74ch; margin:28px 0 0; }
+.demo-intro .accent-c { color: var(--gcyan); text-shadow: 0 0 6px rgba(85,255,255,0.25); }
+.demo-intro .accent-y { color: var(--gyellow); text-shadow: 0 0 6px rgba(255,255,85,0.3); }
+.demo-prose { font-size:13px; line-height:1.88; color:#a8a8a8; max-width:74ch; margin:0 0 20px; }
+.demo-article-line {
+  font-family:'IBM Plex Mono',monospace;
+  font-size:13px;
+  font-weight:400;
+  letter-spacing:0.20em;
+  color:#00aaaa;
+  text-transform:uppercase;
+  margin:40px 0 14px;
+}
+/* Section header color rotation — cyan default (setup), green (action), yellow (result), magenta (recap) */
+.demo-article-line.h2 { color: #44cc44; }
+.demo-article-line.h3 { color: #ccaa00; }
+.demo-article-line.h4 { color: #cc44cc; }
+.demo-pullquote {
+  font-family:'VT323',monospace;
+  font-size:38px;
+  line-height:1.12;
+  color:var(--gcyan);
+  text-shadow:0 0 10px rgba(85,255,255,0.15);
+  padding:22px 0 0;
+  margin:24px 0 0;
+  letter-spacing:0.01em;
+  max-width:28ch;
+}
+.demo-pullquote .pq-accent { color:var(--gyellow); text-shadow:0 0 10px rgba(255,255,85,0.3); }
+
+/* ── LEDGER ── */
+.doc-tech .ledger {
+  border-top:1px solid rgba(0,136,136,0.25);
+  border-bottom:1px solid rgba(0,136,136,0.25);
+  background:rgba(0,136,136,0.04);
+  padding:16px 12px;
+  margin:30px 0;
+  max-width:74ch;
+}
+.doc-tech .ledger-row { display:flex; align-items:baseline; margin-bottom:5px; }
+.doc-tech .ledger-row:last-child { margin-bottom:0; }
+.doc-tech .ledger-lbl { font-size:12px; letter-spacing:.08em; text-transform:uppercase; color:#555; white-space:nowrap; }
+.doc-tech .ledger-fill { flex:1; border-bottom:1px dashed #252525; margin:0 8px 4px; }
+.doc-tech .ledger-val { font-size:14px; font-weight:700; color:#55ff55; }
+.doc-tech .ledger--neutral .ledger-lbl { color:#c0c0c0; text-transform:none; font-size:13px; letter-spacing:0.02em; }
+.doc-tech .ledger--neutral .ledger-val { color:#555; font-weight:300; font-size:12px; }
+.doc-tech .ledger--neutral { background:rgba(0,136,136,0.1); }
+.doc-tech .ledger.demo-pso { background:rgba(0,136,136,0.04); max-width:100%; }
+.demo-pso .ledger-row { align-items:baseline; margin-bottom:6px; }
+.demo-pso .ledger-lbl { min-width:90px; color:#00aaaa; font-size:11px; letter-spacing:.18em; text-transform:uppercase; font-weight:400; }
+.demo-pso .ledger-val { font-size:13px; font-weight:300; color:#a8a8a8; white-space:normal; }
+.demo-pso .ledger-val.outcome { color:var(--ggreen); text-shadow:0 0 6px rgba(85,255,85,0.25); }
+
+/* ── LINKEDIN POST COMPANION IMAGE ── */
+.post-companion {
+  display: block;
+  width: 100%;
+  max-width: 74ch;
+  height: auto;
+  margin: 18px 0 24px;
+  border: 1px solid #1a3a3a;
+  position: relative;
+  z-index: 60;
+}
+
+/* ── INLINE TYPED COMMAND ── */
+.cmd {
+  font-style: italic;
+}
+
+/* ── PROMPT CALLOUT ── */
+.bbs-prompt {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 13px;
+  line-height: 1.75;
+  color: var(--ggreen);
+  background: rgba(0,136,136,0.06);
+  border-top: 1px solid rgba(0,136,136,0.45);
+  border-bottom: 1px solid rgba(0,136,136,0.45);
+  padding: 20px 24px;
+  margin: 14px 0 12px;
+  max-width: 74ch;
+  white-space: pre-wrap;
+  text-shadow: 0 0 4px rgba(85,255,85,0.15);
+}
+
+/* ── INLINE NOTE / SIDEBAR ── */
+.demo-note {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 13px;
+  line-height: 1.85;
+  font-weight: 300;
+  color: #b8b8b8;
+  background: rgba(0,136,136,0.08);
+  padding: 16px 22px;
+  margin: 0 0 26px;
+  max-width: 74ch;
+}
+.demo-note::before {
+  content: '▸';
+  color: var(--gmagenta);
+  text-shadow: 0 0 6px rgba(255,85,255,0.45);
+  font-size: 16px;
+  margin-right: 12px;
+}
+
+/* ── FOLDER TREE CALLOUT ── */
+.bbs-code {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 13px;
+  line-height: 1.7;
+  color: var(--ggreen);
+  background: #050505;
+  border: 1px solid #1a3a3a;
+  padding: 16px 18px;
+  margin: 12px 0 26px;
+  max-width: 74ch;
+  overflow-x: auto;
+  white-space: pre;
+  text-shadow: 0 0 6px rgba(85,255,85,0.15);
+}
+
+/* ── PROCESS LIST (numbered with cyan VT323 counters) ── */
+.demo-process {
+  list-style: none;
+  counter-reset: process-step;
+  padding: 0;
+  margin: 14px 0 8px;
+  max-width: 74ch;
+}
+.demo-process li {
+  counter-increment: process-step;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 13px;
+  font-weight: 300;
+  line-height: 1.85;
+  color: #c8c8c8;
+  padding: 4px 0 4px 56px;
+  position: relative;
+}
+.demo-process li::before {
+  content: counter(process-step, decimal-leading-zero);
+  position: absolute;
+  left: 0;
+  top: 1px;
+  font-family: 'VT323', monospace;
+  font-size: 22px;
+  color: var(--dcyan);
+  letter-spacing: 0.08em;
+  text-shadow: 0 0 6px rgba(0,136,136,0.4);
+}
+
+/* ── CODA / closing thesis line ── */
+.demo-coda {
+  font-family:'VT323', monospace;
+  font-size:26px;
+  line-height:1.25;
+  color:var(--gcyan);
+  text-shadow:0 0 10px rgba(85,255,255,0.2);
+  letter-spacing:0.02em;
+  max-width:60ch;
+  margin:64px 0 0;
+}
+
+.doc-byline {
+  font-family:'IBM Plex Mono', monospace;
+  font-size:12px;
+  font-weight:300;
+  color:#888;
+  letter-spacing:0.02em;
+  max-width:74ch;
+  margin-top:44px;
+  border-top: 1px solid #222;
+  padding-top: 14px;
+}
+.inline-nav {
+  margin-top:20px;
+  border-top:1px solid #1e1e1e;
+  padding-top:14px;
+  font-family:'VT323',monospace;
+  font-size:17px;
+  letter-spacing:0;
+  line-height:1.25;
+}
+.inline-nav a, .inline-nav .nav-tap { text-decoration:none; cursor:pointer; }
+.gc { color:var(--gcyan); text-shadow:0 0 5px var(--gcyan); }
+.gg { color:var(--ggreen); text-shadow:0 0 5px var(--ggreen); }
+.gm { color:var(--gmagenta); text-shadow:0 0 4px var(--gmagenta); }
+
+@media (max-width: 720px) {
+  .doc-tech { padding: 0 14px; }
+  .demo-head .r { font-size:13px; }
+  .demo-pullquote { font-size: 30px; }
+  .bbs-prompt { font-size: 12px; padding: 16px 18px; }
+}
+</style>
+</head>
+<body>
+
+<div id="monitor">
+  <div id="screen">
+
+    <div id="statusbar">
+      <span id="status-left">JASON:UNCK BBS v2.6 &#9632; The Market Is Real</span>
+      <span id="clock">--:--:--</span>
+    </div>
+
+    <div id="s-doc">
+      <div class="scroll-body" id="doc-body">
+
+        <div class="a-mast">
+          <div class="l">
+            <span><b>JASON:UNCK BBS</b></span>
+            <span>1:104/926</span>
+            <span>DOOR GAMES</span>
+          </div>
+          <div class="r">LINE 1 &#9472; V.34</div>
+        </div>
+
+        <div class="doc-tech">
+          <div class="demo-block">
+
+            <div class="demo-head">
+              <div class="l">
+                <span class="pill">WORKFLOW</span>
+                <span class="ttl">THE&nbsp;HIDDEN&nbsp;MARKET</span>
+              </div>
+              <div class="r">AUTOMATED&nbsp;&middot;&nbsp;DAILY&nbsp;&middot;&nbsp;CLAUDE&nbsp;+&nbsp;COWORK</div>
+            </div>
+
+            <img class="post-companion" src="media/the-hidden-market-post.png" alt="The Hidden Market &mdash; LinkedIn post" style="display:none;">
+
+            <p class="demo-intro">This started with a LinkedIn post about the hidden job market. I wanted the same thing, but automated.</p>
+
+            <div class="demo-pullquote">The research runs <span class="pq-accent">itself</span>.</div>
+
+            <div class="ledger ledger--neutral demo-pso" style="margin:20px 0 0;">
+              <div class="ledger-row">
+                <span class="ledger-lbl">PROBLEM</span>
+                <span class="ledger-fill"></span>
+                <span class="ledger-val">Job boards are a lagging indicator. By the time a role surfaces it's already stale.</span>
+              </div>
+              <div class="ledger-row">
+                <span class="ledger-lbl">SOLUTION</span>
+                <span class="ledger-fill"></span>
+                <span class="ledger-val">Built a Cowork workflow that searches 40+ sources daily, scores every role against a custom profile, and saves a ranked report before you drink your coffee.</span>
+              </div>
+              <div class="ledger-row" style="margin-bottom:0;">
+                <span class="ledger-lbl">OUTCOME</span>
+                <span class="ledger-fill"></span>
+                <span class="ledger-val outcome">Time freed for actual applications.</span>
+              </div>
+            </div>
+
+            <div class="demo-article-line">WORKFLOW &middot;</div>
+
+            <p class="demo-prose">I opened Claude Desktop. Switched to Cowork. Clicked New Task. The folder didn't exist yet so I asked Cowork to build everything itself. Here's the exact prompt:</p>
+
+            <img class="post-companion" src="media/cowork-prompt-screenshot.png" alt="Claude Cowork interface with the prompt pasted in">
+
+            <div class="demo-article-line h2">THE PROMPT &middot;</div>
+
+            <pre class="bbs-prompt">"Please create the folder structure for me. Create /Users/[your username]/Desktop/[your folder name]/ with subfolders [reports folder] and [tracking folder]. Then create the INSTRUCTIONS.md file inside it with the job research workflow instructions for a [your title] specializing in [your core skills] who has shipped [your shipped titles] at [your employers]. Based in [your location], open to [your location preferences]. Search [your target job boards and studio career pages &mdash; include both specific studio career pages and broader game job boards like Hitmarker, Work With Indies, and Greenhouse so the sweep goes beyond what LinkedIn already shows you]. Score roles [your match threshold] or higher only. Flag HOT if posted within [your time window]. Save reports to /Users/[your username]/Desktop/[your folder name]/[your reports folder]/"</pre>
+
+            <div class="demo-note">Worth noting: I also maintain a master MD file with my full professional context. Background, skills, voice rules, current priorities. I load it at the start of every Claude session so the AI already knows who I am. You can reference that file in your Cowork instructions too. The more context the system has, the sharper the scoring gets.</div>
+
+            <p class="demo-intro"><span class="accent-c">One prompt.</span> Cowork built the folder, the subfolders, and wrote the instructions file directly on the machine. <span class="accent-y">No manual setup.</span></p>
+
+            <div class="demo-article-line h3">FOLDER STRUCTURE &middot;</div>
+
+<pre class="bbs-code">/Users/[your username]/Desktop/[your folder name]/
+&#9500;&#9472;&#9472; INSTRUCTIONS.md
+&#9500;&#9472;&#9472; [your reports folder]/
+&#9492;&#9472;&#9472; [your tracking folder]/</pre>
+
+            <p class="demo-prose">Typed "<span class="cmd">run the job research workflow.</span>" It executed. First report landed in 15 minutes. Some results came back below threshold. The market was thin that day. The system told the truth instead of padding the results. That's the value.</p>
+
+            <img class="post-companion" src="media/jobs-report-screenshot.png" alt="The generated UX Job Search Results report">
+
+            <p class="demo-prose">If you want to go deeper, run the same prompt in Gemini with Deep Research enabled in parallel. Anything that surfaces in both is a priority. Two independent systems finding the same role means it's real and it's a fit.</p>
+
+            <div class="demo-article-line h4">PROCESS &middot;</div>
+
+            <ol class="demo-process">
+              <li>Found the post about the hidden job market.</li>
+              <li>Asked Cowork to build the folder and write the instructions.</li>
+              <li>Typed one line to run it.</li>
+              <li>Read the report.</li>
+              <li>Applied to what mattered.</li>
+            </ol>
+
+            <div class="demo-coda">The machine does the research. You do the work that requires a human.</div>
+
+            <div class="doc-byline">I'm a Principal UX Designer who shipped UX for Halo, Star Wars, and Lord of the Rings. Currently building at jasonunck.com</div>
+
+            <div class="inline-nav">
+              <a href="index.html"><span class="gg">[Q]</span> <span style="color:#666;">Back to BBS</span></a>&nbsp;&nbsp;
+              <a href="https://jasonunck.com" target="_blank" rel="noopener"><span class="gc">[W]</span> <span style="color:#666;">jasonunck.com</span></a>&nbsp;&nbsp;
+              <a href="mailto:design@jasonunck.com"><span class="gm">[C]</span> <span style="color:#666;">Contact</span></a>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  function tick() {
+    var d = new Date();
+    var pad = function(n){ return String(n).padStart(2,'0'); };
+    var el = document.getElementById('clock');
+    if (el) el.textContent = pad(d.getHours()) + ':' + pad(d.getMinutes()) + ':' + pad(d.getSeconds());
+  }
+  tick();
+  setInterval(tick, 1000);
+</script>
+
+</body>
+</html>

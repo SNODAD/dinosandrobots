@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Coffee Variants — Compare</title>
+<link href="https://fonts.googleapis.com/css2?family=VT323&family=IBM+Plex+Mono:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --gcyan: #55ffff;
+  --dcyan: #008888;
+  --gyellow: #ffff55;
+  --gwhite: #ffffff;
+  --gray: #a8a8a8;
+  --dgray: #555;
+  --rose: #ff8866;
+}
+html, body {
+  background: #0a0008;
+  min-height: 100vh;
+  font-family: 'IBM Plex Mono', monospace;
+  color: var(--gray);
+  padding: 60px 40px;
+}
+.page-title {
+  font-family: 'VT323', monospace;
+  font-size: 48px;
+  color: var(--gwhite);
+  text-shadow:
+    -1.5px 0 0 rgba(85,255,255,0.42),
+     1.5px 0 0 rgba(255,85,255,0.28),
+     0 0 16px var(--gwhite);
+  letter-spacing: 0.04em;
+  margin-bottom: 8px;
+  text-align: center;
+}
+.page-sub {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 14px;
+  color: var(--dcyan);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  text-align: center;
+  margin-bottom: 60px;
+}
+.grid {
+  max-width: 920px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 28px;
+}
+.variant {
+  border: 1px solid rgba(0,136,136,0.4);
+  background: rgba(0,136,136,0.03);
+  padding: 28px 24px;
+  min-height: 320px;
+  display: flex;
+  flex-direction: column;
+}
+.label {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.28em;
+  color: var(--dcyan);
+  text-transform: uppercase;
+  margin-bottom: 24px;
+}
+.label .id { color: var(--gyellow); }
+.sample {
+  font-family: 'IBM Plex Mono', monospace;
+  font-weight: 300;
+  font-size: 18px;
+  line-height: 1.55;
+  color: var(--gray);
+  flex: 1;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.sample.column { flex-direction: column; align-items: flex-start; gap: 18px; }
+
+/* inline cup wrapper */
+.cup-inline {
+  display: inline-block;
+  vertical-align: middle;
+  margin: 0 6px;
+  line-height: 1.0;
+  font-family: 'IBM Plex Mono', monospace;
+  font-weight: 400;
+  white-space: pre;
+}
+
+/* after-block cup */
+.cup-block {
+  font-family: 'IBM Plex Mono', monospace;
+  font-weight: 400;
+  line-height: 1.0;
+  white-space: pre;
+  margin-top: 4px;
+}
+
+/* size variants */
+.cup-A { font-size: 12px; }
+.cup-B { font-size: 13px; }
+.cup-C { font-size: 13px; }
+.cup-D { font-size: 12px; }
+
+/* color helpers */
+.steam { color: var(--gcyan); text-shadow: 0 0 4px var(--gcyan); }
+.body  { color: var(--gwhite); text-shadow: 0 0 2px rgba(255,255,255,0.6); }
+.brew  { color: var(--gyellow); text-shadow: 0 0 4px rgba(255,255,85,0.5); }
+</style>
+</head>
+<body>
+
+<div class="page-title">COFFEE&nbsp;VARIANTS</div>
+<div class="page-sub">A &middot; B &middot; C &middot; D &nbsp;&middot;&nbsp; replaces vs after</div>
+
+<div class="grid">
+
+  <!-- A · REPLACES -->
+  <div class="variant">
+    <div class="label"><span class="id">A</span> &middot; tiny &middot; replaces "coffee"</div>
+    <div class="sample">Ready&nbsp;before <span class="cup-inline cup-A"><span class="steam"> )
+( )</span>
+<span class="body">[_]</span></span>.</div>
+  </div>
+
+  <!-- A · AFTER -->
+  <div class="variant">
+    <div class="label"><span class="id">A</span> &middot; tiny &middot; after</div>
+    <div class="sample column">
+      <div>Ready before coffee.</div>
+      <pre class="cup-block cup-A"><span class="steam"> )
+( )</span>
+<span class="body">[_]</span></pre>
+    </div>
+  </div>
+
+  <!-- B · REPLACES -->
+  <div class="variant">
+    <div class="label"><span class="id">B</span> &middot; small &middot; replaces "coffee"</div>
+    <div class="sample">Ready&nbsp;before <span class="cup-inline cup-B"><span class="steam">   ) )
+  ( (</span>
+<span class="body">   ___
+  |   |
+  '---'</span></span>.</div>
+  </div>
+
+  <!-- B · AFTER -->
+  <div class="variant">
+    <div class="label"><span class="id">B</span> &middot; small &middot; after</div>
+    <div class="sample column">
+      <div>Ready before coffee.</div>
+      <pre class="cup-block cup-B"><span class="steam">   ) )
+  ( (</span>
+<span class="body">   ___
+  |   |
+  '---'</span></pre>
+    </div>
+  </div>
+
+  <!-- C · REPLACES -->
+  <div class="variant">
+    <div class="label"><span class="id">C</span> &middot; mug w/ handle &middot; replaces "coffee"</div>
+    <div class="sample">Ready&nbsp;before <span class="cup-inline cup-C"><span class="steam">    ) )
+   ( (</span>
+<span class="body">  .------.
+  |      |\
+  |      | )
+  '------'/</span></span>.</div>
+  </div>
+
+  <!-- C · AFTER -->
+  <div class="variant">
+    <div class="label"><span class="id">C</span> &middot; mug w/ handle &middot; after</div>
+    <div class="sample column">
+      <div>Ready before coffee.</div>
+      <pre class="cup-block cup-C"><span class="steam">    ) )
+   ( (</span>
+<span class="body">  .------.
+  |      |\
+  |      | )
+  '------'/</span></pre>
+    </div>
+  </div>
+
+  <!-- D · REPLACES -->
+  <div class="variant">
+    <div class="label"><span class="id">D</span> &middot; detailed &middot; replaces "coffee"</div>
+    <div class="sample">Ready&nbsp;before <span class="cup-inline cup-D"><span class="steam">       ) )
+      ( (
+       ) )</span>
+<span class="body">  .----------.
+  |          |---.
+  |   <span class="brew">:::</span>    |   |
+  |   <span class="brew">:::</span>    |   |
+  '----------'---'</span></span>.</div>
+  </div>
+
+  <!-- D · AFTER -->
+  <div class="variant">
+    <div class="label"><span class="id">D</span> &middot; detailed &middot; after</div>
+    <div class="sample column">
+      <div>Ready before coffee.</div>
+      <pre class="cup-block cup-D"><span class="steam">       ) )
+      ( (
+       ) )</span>
+<span class="body">  .----------.
+  |          |---.
+  |   <span class="brew">:::</span>    |   |
+  |   <span class="brew">:::</span>    |   |
+  '----------'---'</span></pre>
+    </div>
+  </div>
+
+</div>
+
+</body>
+</html>

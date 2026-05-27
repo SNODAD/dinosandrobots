@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Post 4 — Dossier File</title>
+<link href="https://fonts.googleapis.com/css2?family=VT323&family=IBM+Plex+Mono:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --gcyan: #55ffff;
+  --dcyan: #008888;
+  --ggreen: #55ff55;
+  --gyellow: #ffff55;
+  --gwhite: #ffffff;
+  --gray: #a8a8a8;
+  --dgray: #555;
+  --rose: #ff8866;
+  --stamp: #ff5566;
+}
+html, body {
+  background: #0a0008;
+  min-height: 100vh;
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'IBM Plex Mono', monospace;
+}
+#canvas {
+  width: 1080px; height: 1080px;
+  position: relative; overflow: hidden;
+  background: #000; flex-shrink: 0;
+}
+#bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 1; }
+#scrim {
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse 85% 70% at 50% 45%, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.82) 60%, rgba(0,0,0,0.95) 100%);
+  z-index: 2;
+}
+#scanlines {
+  position: absolute; inset: 0;
+  background: repeating-linear-gradient(0deg, transparent 0 2px, rgba(0,0,0,0.18) 2px 3px);
+  z-index: 3; pointer-events: none; mix-blend-mode: multiply;
+}
+
+#card {
+  position: absolute;
+  top: 110px; bottom: 130px;
+  left: 100px; right: 100px;
+  z-index: 4;
+  display: flex; flex-direction: column;
+  gap: 28px;
+}
+
+.header-row {
+  display: flex; justify-content: space-between; align-items: flex-start;
+  font-family: 'VT323', monospace;
+  font-size: 22px;
+  color: var(--dcyan);
+  letter-spacing: 0.12em;
+}
+.header-row .l { display: flex; gap: 24px; align-items: baseline; }
+.header-row .l b { color: var(--gcyan); text-shadow: 0 0 6px var(--gcyan); font-weight: 400; }
+.stamp {
+  border: 2px solid var(--stamp);
+  color: var(--stamp);
+  padding: 4px 14px 2px;
+  font-family: 'VT323', monospace;
+  font-size: 22px;
+  letter-spacing: 0.24em;
+  text-shadow: 0 0 8px rgba(255,85,102,0.4);
+  box-shadow: 0 0 14px rgba(255,85,102,0.18);
+  transform: rotate(2deg);
+}
+
+.case {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 14px;
+  letter-spacing: 0.28em;
+  color: #888;
+  text-transform: uppercase;
+}
+.ttl {
+  font-family: 'VT323', monospace;
+  font-size: 96px;
+  color: var(--gwhite);
+  text-shadow: 0 0 18px var(--gwhite);
+  letter-spacing: 0.02em;
+  line-height: 1;
+  margin-top: 4px;
+}
+.deck {
+  font-family: 'IBM Plex Mono', monospace;
+  font-weight: 300;
+  font-size: 20px;
+  color: var(--gray);
+  letter-spacing: 0.02em;
+  line-height: 1.5;
+  margin-top: 10px;
+  max-width: 780px;
+}
+
+.dossier-fields {
+  border-top: 1px solid rgba(0,136,136,0.45);
+  border-bottom: 1px solid rgba(0,136,136,0.45);
+  padding: 24px 4px;
+  display: grid;
+  grid-template-columns: 160px 1fr;
+  row-gap: 12px;
+  column-gap: 18px;
+  align-items: baseline;
+}
+.dossier-fields .k {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 14px;
+  letter-spacing: 0.22em;
+  color: #888;
+  text-transform: uppercase;
+}
+.dossier-fields .v {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 19px;
+  font-weight: 300;
+  color: #e0e0e0;
+  letter-spacing: 0.01em;
+}
+.dossier-fields .v.green { color: var(--ggreen); text-shadow: 0 0 8px rgba(85,255,85,0.3); }
+.dossier-fields .v.yellow { color: var(--gyellow); text-shadow: 0 0 8px rgba(255,255,85,0.3); }
+
+.signoff {
+  display: flex; justify-content: space-between; align-items: flex-end;
+  margin-top: auto;
+  padding-top: 18px;
+  border-top: 1px dashed rgba(0,136,136,0.4);
+}
+.signoff .filed-by {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 14px;
+  letter-spacing: 0.22em;
+  color: #888;
+  text-transform: uppercase;
+}
+.signoff .filed-by .name {
+  display: block;
+  margin-top: 4px;
+  font-family: 'VT323', monospace;
+  font-size: 32px;
+  color: var(--gcyan);
+  text-shadow: 0 0 8px var(--gcyan);
+  letter-spacing: 0.02em;
+  text-transform: none;
+}
+.signoff .date {
+  font-family: 'VT323', monospace;
+  font-size: 22px;
+  color: var(--dgray);
+  letter-spacing: 0.12em;
+}
+
+#brand {
+  position: absolute;
+  bottom: 56px;
+  left: 0; right: 0;
+  text-align: center;
+  z-index: 5;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 18px;
+  color: var(--dcyan);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+#brand .sep { color: #333; margin: 0 14px; }
+</style>
+</head>
+<body>
+<div id="canvas">
+  <img id="bg" src="media/post-bg.png" alt="">
+  <div id="scrim"></div>
+  <div id="scanlines"></div>
+
+  <div id="card">
+
+    <div class="header-row">
+      <div class="l"><span><b>JASON:UNCK BBS</b></span><span>1:104/926</span><span>DOOR GAMES</span></div>
+      <div class="stamp">CLASSIFIED</div>
+    </div>
+
+    <div>
+      <div class="case">CASE FILE #001</div>
+      <div class="ttl">THE&nbsp;HIDDEN&nbsp;MARKET</div>
+      <div class="deck">Job boards are a lagging indicator. By the time a role hits Hitmarker it's already been shopped internally for weeks. I built a workflow to get ahead of that.</div>
+    </div>
+
+    <div class="dossier-fields">
+      <div class="k">Subject</div>      <div class="v">Hidden game UX job market</div>
+      <div class="k">Method</div>       <div class="v">Automated research workflow &mdash; Claude + Cowork</div>
+      <div class="k">Cadence</div>      <div class="v">Daily 08:00. No manual touch.</div>
+      <div class="k">Yield</div>        <div class="v yellow">7 candidates scored &middot; top match 68%</div>
+      <div class="k">Status</div>       <div class="v green">Active. Reports archived.</div>
+    </div>
+
+    <div class="signoff">
+      <div class="filed-by">
+        Filed by
+        <span class="name">Jason Unck</span>
+      </div>
+      <div class="date">2026.05.26</div>
+    </div>
+
+  </div>
+
+  <div id="brand">jasonunck.com<span class="sep">·</span>linkedin.com/in/junck</div>
+</div>
+</body>
+</html>

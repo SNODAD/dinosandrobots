@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Post 1 — BBS Article Card</title>
+<link href="https://fonts.googleapis.com/css2?family=VT323&family=IBM+Plex+Mono:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --gcyan: #55ffff;
+  --dcyan: #008888;
+  --ggreen: #55ff55;
+  --gyellow: #ffff55;
+  --gwhite: #ffffff;
+  --gray: #a8a8a8;
+  --dgray: #555;
+}
+html, body {
+  background: #0a0008;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'IBM Plex Mono', monospace;
+}
+#canvas {
+  width: 1080px;
+  height: 1080px;
+  position: relative;
+  overflow: hidden;
+  background: #000;
+  flex-shrink: 0;
+}
+#bg {
+  position: absolute;
+  inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+  z-index: 1;
+}
+#scrim {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 85% 70% at 50% 45%, rgba(0,0,0,0.45) 0%, rgba(0,0,0,0.78) 60%, rgba(0,0,0,0.95) 100%),
+    linear-gradient(180deg, rgba(0,0,0,0.35) 0%, rgba(0,0,0,0.55) 100%);
+  z-index: 2;
+}
+#scanlines {
+  position: absolute; inset: 0;
+  background: repeating-linear-gradient(0deg, transparent 0 2px, rgba(0,0,0,0.18) 2px 3px);
+  z-index: 3;
+  pointer-events: none;
+  mix-blend-mode: multiply;
+}
+#card {
+  position: absolute;
+  top: 110px; bottom: 130px;
+  left: 100px; right: 100px;
+  z-index: 4;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 36px;
+}
+.mast {
+  display: flex; justify-content: space-between; align-items: baseline;
+  font-family: 'VT323', monospace;
+  font-size: 26px;
+  color: var(--dcyan);
+  border-top: 3px double var(--dcyan);
+  border-bottom: 3px double var(--dcyan);
+  padding: 10px 0;
+  letter-spacing: 0.04em;
+}
+.mast .l { display:flex; gap:18px; }
+.mast .l b { color: var(--gcyan); text-shadow: 0 0 8px var(--gcyan); font-weight: 400; }
+.mast .r { color: var(--dgray); font-size: 22px; }
+
+.eyebrow {
+  font-family: 'VT323', monospace;
+  font-size: 22px;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--dcyan);
+  text-align: left;
+  margin-bottom: 6px;
+}
+.eyebrow .marker { color: var(--gcyan); text-shadow: 0 0 6px var(--gcyan); }
+.eyebrow .num { color: var(--gyellow); text-shadow: 0 0 6px rgba(255,255,85,0.4); }
+
+.title-row {
+  display: flex;
+  align-items: baseline;
+  gap: 22px;
+  flex-wrap: wrap;
+}
+.ttl {
+  font-family: 'VT323', monospace;
+  font-size: 92px;
+  color: var(--gwhite);
+  text-shadow:
+    -1.5px 0 0 rgba(85,255,255,0.42),
+     1.5px 0 0 rgba(255,85,255,0.28),
+     0 0 16px var(--gwhite),
+     0 0 44px rgba(255,255,255,0.18);
+  letter-spacing: 0.02em;
+  line-height: 0.98;
+}
+.title-rule {
+  height: 1px;
+  background: linear-gradient(90deg, rgba(85,255,255,0.55) 0%, rgba(0,136,136,0.25) 45%, rgba(0,136,136,0) 100%);
+  margin-top: -16px;
+  margin-bottom: -10px;
+}
+
+.subtitle {
+  font-family: 'IBM Plex Mono', monospace;
+  font-weight: 300;
+  font-size: 22px;
+  line-height: 1.55;
+  color: var(--gray);
+  max-width: 800px;
+}
+
+.ledger {
+  border-top: 1px solid rgba(0,136,136,0.4);
+  border-bottom: 1px solid rgba(0,136,136,0.4);
+  background: rgba(0,136,136,0.08);
+  padding: 22px 18px;
+}
+.row { display: flex; align-items: baseline; margin-bottom: 12px; gap: 12px; }
+.row:last-child { margin-bottom: 0; }
+.lbl {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 14px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--dcyan);
+  min-width: 110px;
+}
+.fill { flex: 1; border-bottom: 1px dashed rgba(0,136,136,0.45); margin-bottom: 6px; }
+.val {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 20px;
+  font-weight: 300;
+  color: #ddd;
+}
+.val.outcome { color: var(--ggreen); text-shadow: 0 0 10px rgba(85,255,85,0.35); }
+
+.pullquote {
+  font-family: 'VT323', monospace;
+  font-size: 56px;
+  color: var(--gcyan);
+  text-shadow: 0 0 14px rgba(85,255,255,0.25);
+  line-height: 1.1;
+  letter-spacing: 0.02em;
+  padding-top: 4px;
+}
+.pullquote .pq-mark {
+  color: var(--dcyan);
+  margin-right: 12px;
+  text-shadow: none;
+}
+.pullquote .accent { color: var(--gyellow); text-shadow: 0 0 14px rgba(255,255,85,0.35); }
+
+#brand {
+  position: absolute;
+  bottom: 50px;
+  left: 100px; right: 100px;
+  z-index: 5;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  font-family: 'VT323', monospace;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+#brand .brand-logo-left  { justify-self: start; }
+#brand .brand-logo-right { justify-self: end; }
+#brand .brand-text {
+  grid-column: 2;
+  justify-self: center;
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  white-space: nowrap;
+}
+#brand .brand-name {
+  font-size: 24px;
+  color: var(--gwhite);
+  text-shadow: 0 0 6px rgba(255,255,255,0.35);
+}
+#brand .brand-by {
+  font-size: 22px;
+  color: var(--dcyan);
+}
+
+</style>
+</head>
+<body>
+<svg style="position:absolute;width:0;height:0;overflow:hidden;" aria-hidden="true">
+  <defs>
+    <filter id="chroma-black" color-interpolation-filters="sRGB">
+      <feColorMatrix type="matrix" values="
+        1 0 0 0 0
+        0 1 0 0 0
+        0 0 1 0 0
+        1 1 1 0 -0.05"/>
+    </filter>
+  </defs>
+</svg>
+<div id="canvas">
+  <img id="bg" src="media/post-bg.png" alt="">
+  <div id="scrim"></div>
+  <div id="scanlines"></div>
+
+  <div id="card">
+
+    <div class="title-row">
+      <span class="ttl">THE&nbsp;HIDDEN&nbsp;MARKET</span>
+    </div>
+
+    <div class="subtitle">Job boards show you what's already been shopped internally for weeks. I built a workflow that gets ahead of that. Automated. Daily. Ready before coffee.</div>
+
+    <div class="ledger">
+      <div class="row"><span class="lbl">PROBLEM</span><span class="fill"></span><span class="val">Boards are a lagging indicator.</span></div>
+      <div class="row"><span class="lbl">SOLUTION</span><span class="fill"></span><span class="val">Claude + Cowork runs the search daily.</span></div>
+      <div class="row"><span class="lbl">OUTCOME</span><span class="fill"></span><span class="val outcome">Report ready by 8 AM.</span></div>
+    </div>
+
+    <div class="pullquote"><span class="pq-mark">&gt;</span>Read more at <span class="accent">DinosLikeRobots.com</span></div>
+
+  </div>
+
+  <div id="brand">
+    <img class="brand-logo-left" src="media/dinos-robots-yellow.png" alt="Dinosaurs and Robots" style="display:none;width:140px;height:auto;filter:url(#chroma-black);">
+    <div class="brand-text">
+      <span class="brand-name">Dinos Like Robots</span>
+      <span class="brand-by">by JasonUnck.com</span>
+    </div>
+    <img class="brand-logo-right" src="media/jasonunck-logo.png" alt="Jason Unck" style="display:none;width:56px;height:56px;opacity:0.5;">
+  </div>
+</div>
+</body>
+</html>

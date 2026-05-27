@@ -1443,6 +1443,31 @@ hr.sep { border:none; border-top:1px solid #222; margin:6px 0; }
 .demo-pso .ledger-val { white-space:nowrap; font-size:13px; font-weight:300; color:#a8a8a8; }
 .demo-pso .ledger-val.outcome { color:var(--ggreen); text-shadow:0 0 6px rgba(85,255,85,0.25); }
 .demo-pullquote .pq-accent { color:var(--gyellow); text-shadow:0 0 10px rgba(255,255,85,0.3); }
+
+/* === D2 — THE HIDDEN MARKET — scoped overrides + additions === */
+#demo-d2 .demo-head .ttl { font-size:28px; letter-spacing:0.03em; line-height:1.05; }
+#demo-d2 .demo-article-line { font-size:13px; font-weight:400; letter-spacing:0.20em; color:#00aaaa; margin:40px 0 14px; }
+#demo-d2 .demo-article-line.h2 { color:#44cc44; }
+#demo-d2 .demo-article-line.h3 { color:#ccaa00; }
+#demo-d2 .demo-article-line.h4 { color:#cc44cc; }
+#demo-d2 .demo-pso .ledger-row { display: grid; grid-template-columns: 90px 1fr 55ch; column-gap: 10px; align-items: baseline; margin-bottom: 8px; }
+#demo-d2 .demo-pso .ledger-lbl { min-width:0; color:#00aaaa; font-size:11px; letter-spacing:.18em; text-transform:uppercase; font-weight:400; }
+#demo-d2 .demo-pso .ledger-fill { margin: 0 0 4px; }
+#demo-d2 .demo-pso .ledger-val { white-space: normal; line-height: 1.55; }
+#demo-d2 .demo-prose { margin: 0 0 20px; }
+#demo-d2 .demo-intro .accent-c { color: var(--gcyan); text-shadow: 0 0 6px rgba(85,255,255,0.25); }
+#demo-d2 .demo-intro .accent-y { color: var(--gyellow); text-shadow: 0 0 6px rgba(255,255,85,0.3); }
+#demo-d2 .cmd { font-style: italic; }
+#demo-d2 .demo-note { font-family: 'IBM Plex Mono', monospace; font-size: 13px; line-height: 1.85; font-weight: 300; color: #b8b8b8; background: rgba(0,136,136,0.08); padding: 16px 22px; margin: 0 0 26px; max-width: 74ch; }
+#demo-d2 .demo-note::before { content: '▸'; color: var(--gmagenta); text-shadow: 0 0 6px rgba(255,85,255,0.45); font-size: 16px; margin-right: 12px; }
+#demo-d2 .bbs-prompt { font-family: 'IBM Plex Mono', monospace; font-size: 13px; line-height: 1.75; color: var(--ggreen); background: rgba(0,136,136,0.06); border-top: 1px solid rgba(0,136,136,0.45); border-bottom: 1px solid rgba(0,136,136,0.45); padding: 20px 24px; margin: 14px 0 12px; max-width: 74ch; white-space: pre-wrap; text-shadow: 0 0 4px rgba(85,255,85,0.15); }
+#demo-d2 .bbs-code { font-family: 'IBM Plex Mono', monospace; font-size: 13px; line-height: 1.7; color: var(--ggreen); background: #050505; border: 1px solid #1a3a3a; padding: 16px 18px; margin: 12px 0 26px; max-width: 74ch; overflow-x: auto; white-space: pre; text-shadow: 0 0 6px rgba(85,255,85,0.15); }
+#demo-d2 .demo-process { list-style: none; counter-reset: process-step; padding: 0; margin: 14px 0 8px; max-width: 74ch; }
+#demo-d2 .demo-process li { counter-increment: process-step; font-family: 'IBM Plex Mono', monospace; font-size: 13px; font-weight: 300; line-height: 1.85; color: #c8c8c8; padding: 4px 0 4px 56px; position: relative; }
+#demo-d2 .demo-process li::before { content: counter(process-step, decimal-leading-zero); position: absolute; left: 0; top: 1px; font-family: 'VT323', monospace; font-size: 22px; color: var(--dcyan); letter-spacing: 0.08em; text-shadow: 0 0 6px rgba(0,136,136,0.4); }
+#demo-d2 .demo-coda { font-family:'VT323', monospace; font-size:26px; line-height:1.25; color:var(--gcyan); text-shadow:0 0 10px rgba(85,255,255,0.2); letter-spacing:0.02em; max-width:60ch; margin:64px 0 0; }
+#demo-d2 .post-companion { display: block; width: 100%; height: auto; margin: 32px 0 0; background: #050505; border: 1px solid #1a3a3a; position: relative; z-index: 60; }
+#demo-d2 .post-companion + .demo-prose { margin-top: 24px; }
 /* ── end DEMO ARTICLE ── */
 /* ── end DEMO SECTION ── */
 </style>
@@ -2824,8 +2849,8 @@ const BOARDS = {
   // },
   doors: {
     key:'D', label:'DOOR GAMES', color:'gy',
-    sub:'Interactive AI experiments · live tools',
-    newCount: 1,
+    sub:'Writings about AI',
+    newCount: 2,
     items:[
       {id:'d1', num:'', title:'Dial In With Conviction', date:'', isNew:true, demoMode:true, body:`<div class="demo-block" id="demo-d1">
   <div class="demo-head">
@@ -2856,7 +2881,49 @@ const BOARDS = {
   </div>
   <div class="demo-img-caption" style="padding-top:10px;">Built it. Chose differently. Kept the tool.</div>
 </div>`},
-      // {id:'d2', num:'RUN', title:'UX Critique Engine — paste a screenshot, get a structured review', date:'ACTIVE', isNew:true,  body:`Upload a game UI screenshot and get a heuristic-based critique using the same framework I use in real audits.\n\n[Live tool — link placeholder]`},
+      {id:'d2', num:'', title:'The Hidden Market', date:'', isNew:true, demoMode:true, body:`<div class="demo-block" id="demo-d2">
+  <div class="demo-head">
+    <div class="l">
+      <span class="pill">WORKFLOW</span>
+      <span class="ttl">THE&nbsp;HIDDEN&nbsp;MARKET</span>
+    </div>
+    <div class="r">AUTOMATED&nbsp;&middot;&nbsp;DAILY&nbsp;&middot;&nbsp;CLAUDE&nbsp;+&nbsp;COWORK</div>
+  </div>
+  <img class="post-companion" src="media/the-hidden-market-post.png" alt="The Hidden Market — LinkedIn post" style="display:none;">
+  <p class="demo-intro">This started with a LinkedIn post about the hidden job market. I wanted the same thing, but automated. I'd rather be spending my time on LinkedIn networking than looking for a job.</p>
+  <img class="post-companion" src="media/linkedin-profile.png" alt="Jason Unck LinkedIn profile">
+  <div class="demo-pullquote">The research runs <span class="pq-accent">itself</span>.</div>
+  <div class="ledger ledger--neutral demo-pso" style="margin:20px 0 0;">
+    <div class="ledger-row"><span class="ledger-lbl">PROBLEM</span><span class="ledger-fill"></span><span class="ledger-val">Job boards are a lagging indicator. By the time a role surfaces it's already stale.</span></div>
+    <div class="ledger-row"><span class="ledger-lbl">SOLUTION</span><span class="ledger-fill"></span><span class="ledger-val">Built a Cowork workflow that searches 40+ sources daily, scores every role against a custom profile, and saves a ranked report before you drink your coffee.</span></div>
+    <div class="ledger-row" style="margin-bottom:0;"><span class="ledger-lbl">OUTCOME</span><span class="ledger-fill"></span><span class="ledger-val outcome">Time freed for actual applications.</span></div>
+  </div>
+  <div class="demo-article-line">WORKFLOW &middot;</div>
+  <p class="demo-prose">I opened Claude Desktop. Switched to Cowork. Clicked New Task. The folder didn't exist yet so I asked Cowork to build everything itself.</p>
+  <img class="post-companion" src="media/cowork-prompt-screenshot.png" alt="Claude Cowork interface with the prompt pasted in">
+  <div class="demo-article-line h2">THE PROMPT &middot;</div>
+  <pre class="bbs-prompt">"Please create the folder structure for me. Create /Users/[your username]/Desktop/[your folder name]/ with subfolders [reports folder] and [tracking folder]. Then create the INSTRUCTIONS.md file inside it with the job research workflow instructions for a [your title] specializing in [your core skills] who has shipped [your shipped titles] at [your employers]. Based in [your location], open to [your location preferences]. Search [your target job boards and studio career pages &mdash; include both specific studio career pages and broader game job boards like Hitmarker, Work With Indies, and Greenhouse so the sweep goes beyond what LinkedIn already shows you]. Score roles [your match threshold] or higher only. Flag HOT if posted within [your time window]. Save reports to /Users/[your username]/Desktop/[your folder name]/[your reports folder]/"</pre>
+  <div class="demo-note">Worth noting: I also maintain a master MD file with my full professional context. Background, skills, voice rules, current priorities. I load it at the start of every Claude session so the AI already knows who I am. You can reference that file in your Cowork instructions too. The more context the system has, the sharper the scoring gets.</div>
+  <p class="demo-intro"><span class="accent-c">One prompt.</span> Cowork built the folder, the subfolders, and wrote the instructions file directly on the machine. <span class="accent-y">No manual setup.</span></p>
+  <div class="demo-article-line h3">FOLDER STRUCTURE &middot;</div>
+<pre class="bbs-code">/Users/[your username]/Desktop/[your folder name]/
+&#9500;&#9472;&#9472; INSTRUCTIONS.md
+&#9500;&#9472;&#9472; [your reports folder]/
+&#9492;&#9472;&#9472; [your tracking folder]/</pre>
+  <p class="demo-prose">Typed "<span class="cmd">run the job research workflow.</span>" It executed. First report landed in 15 minutes. Some results came back below threshold. The market was thin that day. The system told the truth instead of padding the results. That's the value.</p>
+  <img class="post-companion" src="media/jobs-report-screenshot.png" alt="The generated UX Job Search Results report">
+  <p class="demo-prose">If you want to go deeper, run the same prompt in Gemini with Deep Research enabled in parallel. Anything that surfaces in both is a priority. Two independent systems finding the same role means it's real and it's a fit.</p>
+  <div class="demo-article-line h4">PROCESS &middot;</div>
+  <ol class="demo-process">
+    <li>Found the post about the hidden job market.</li>
+    <li>Asked Cowork to build the folder and write the instructions.</li>
+    <li>Typed one line to run it.</li>
+    <li>Read the report.</li>
+    <li>Applied to what mattered.</li>
+  </ol>
+  <div class="demo-coda">The machine does the research. You do the work that requires a human.</div>
+</div>`},
+      // {id:'d3', num:'RUN', title:'UX Critique Engine — paste a screenshot, get a structured review', date:'ACTIVE', isNew:true,  body:`Upload a game UI screenshot and get a heuristic-based critique using the same framework I use in real audits.\n\n[Live tool — link placeholder]`},
       // {id:'d3', num:'RUN', title:'Progression Curve Modeler — input your numbers, see the arc',      date:'BETA',   isNew:false, body:`Visualize how your XP thresholds, drop rates, and session lengths translate to player retention curves.\n\n[Beta — in development]`},
     ]
   },
